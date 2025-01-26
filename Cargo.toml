@@ -1,0 +1,13 @@
+[package]
+name = "polars_ext"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+ahash = "0.8.11"
+polars = { version = "0.45.1", default-features = false, features = [
+    "dtype-struct",
+    "fmt_no_tty",
+    "lazy",
+    "round_series",
+] }
