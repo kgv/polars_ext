@@ -5,7 +5,7 @@ edition = "2024"
 
 [dependencies]
 ahash = "0.8.11"
-polars = { version = "0.45.1", default-features = false, features = [
+polars = { version = "0.46.0", default-features = false, features = [
     "dtype-struct",
     "fmt_no_tty",
     "lazy",
