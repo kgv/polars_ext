@@ -30,6 +30,11 @@ pub fn normalize(series: &Series) -> PolarsResult<Series> {
         .into_series())
 }
 
+pub fn nullify(series: &Series, mask: &ChunkedArray<BooleanType>) -> PolarsResult<Series> {
+    let null = Scalar::new(series.dtype().clone(), AnyValue::Null).into_series(PlSmallStr::EMPTY);
+    series.zip_with(mask, &null)
+}
+
 pub fn round(decimals: u32) -> impl Fn(&Series) -> PolarsResult<Series> {
     move |series| series.round(decimals)
 }
