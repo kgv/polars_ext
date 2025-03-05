@@ -4,6 +4,7 @@ pub use self::{
     series::{column, hash, normalize},
 };
 
+pub mod column;
 pub mod data_frame;
 pub mod expr;
 pub mod series;
