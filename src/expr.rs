@@ -27,6 +27,13 @@ pub trait ExprExt {
     ///
     /// * An [`Expr`] with normalized values.
     fn normalize(self) -> Expr;
+
+    /// Nullify the values in an [`Expr`].
+    ///
+    /// # Returns
+    ///
+    /// * An [`Expr`] with nullified values.
+    fn nullify(self, mask: Expr) -> Expr;
 }
 
 impl ExprExt for Expr {
@@ -44,6 +51,10 @@ impl ExprExt for Expr {
 
     fn normalize(self) -> Expr {
         self.apply(column(normalize), GetOutput::same_type())
+    }
+
+    fn nullify(self, mask: Expr) -> Expr {
+        ternary_expr(mask, self, lit(NULL))
     }
 }
 
