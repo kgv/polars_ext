@@ -11,3 +11,8 @@ polars = { version = "0.46.0", default-features = false, features = [
     "lazy",
     "round_series",
 ] }
+polars-arrow = { version = "0.46.0", optional = true }
+
+[features]
+default = []
+temporal_conversions = ["dep:polars-arrow"]
