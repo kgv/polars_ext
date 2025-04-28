@@ -1,4 +1,4 @@
-use super::{column, hash, normalize};
+use crate::series::{column, hash, normalize};
 use polars::prelude::*;
 
 /// Extension methods for [`Expr`]
