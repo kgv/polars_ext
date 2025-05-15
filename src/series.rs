@@ -85,5 +85,5 @@ pub fn nullify(series: &[Series]) -> PolarsResult<Series> {
 ///
 /// * A function that takes a [`Series`] and returns a rounded [`Series`].
 pub fn round(decimals: u32) -> impl Fn(&Series) -> PolarsResult<Series> {
-    move |series| series.round(decimals)
+    move |series| series.round(decimals, RoundMode::HalfToEven)
 }

@@ -1,7 +1,7 @@
 [package]
 name = "polars_ext"
 version = "0.2.0"
-authors = ["Kazakov Giorgi", "Sidorov Roman"]
+authors = ["Giorgi Vladimirovich Kazakov", "Roman Alexandrovich Sidorov"]
 edition = "2024"
 
 [dependencies]
