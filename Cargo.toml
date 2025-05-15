@@ -1,18 +1,18 @@
 [package]
 name = "polars_ext"
-version = "0.2.0"
-authors = ["Kazakov Giorgi", "Sidorov Roman"]
+version = "0.3.0"
+authors = ["Giorgi Vladimirovich Kazakov", "Roman Alexandrovich Sidorov"]
 edition = "2024"
 
 [dependencies]
-ahash = "0.8.11"
-polars = { version = "0.47.1", default-features = false, features = [
+ahash = "0.8.12"
+polars = { version = "0.48.1", default-features = false, features = [
     "dtype-struct",
     "fmt_no_tty",
     "lazy",
     "round_series",
 ] }
-polars-arrow = { version = "0.47.1", optional = true }
+polars-arrow = { version = "0.48.1", optional = true }
 
 [features]
 default = []
