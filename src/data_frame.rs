@@ -19,6 +19,12 @@ pub trait DataFrameExt {
     ///
     /// * A result indicating success or failure.
     fn delete_row(&mut self, row: usize) -> PolarsResult<()>;
+
+    /// Returns a subslice with the first rows up to the row.
+    fn firts_rows_to(&mut self, row: usize);
+
+    /// Returns a subslice with the first rows from the row.
+    fn last_rows_from(&mut self, row: usize);
 }
 
 impl DataFrameExt for DataFrame {
@@ -40,5 +46,13 @@ impl DataFrameExt for DataFrame {
             .vstack(&self.slice((row + 1) as _, usize::MAX))?;
         self.as_single_chunk_par();
         Ok(())
+    }
+
+    fn firts_rows_to(&mut self, row: usize) {
+        *self = self.slice(0, row + 1);
+    }
+
+    fn last_rows_from(&mut self, row: usize) {
+        *self = self.slice(row as _, usize::MAX);
     }
 }
