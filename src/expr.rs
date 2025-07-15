@@ -1,4 +1,4 @@
-use crate::series::{column, normalize};
+use crate::series::{column, hash, normalize};
 use polars::prelude::*;
 
 /// Extension methods for [`Expr`]
@@ -13,6 +13,13 @@ pub trait ExprExt {
     ///
     /// * A destructed [`Expr`].
     fn destruct(self, names: impl IntoIterator<Item = impl AsRef<str>>) -> Expr;
+
+    /// Hashes the values in an [`Expr`].
+    ///
+    /// # Returns
+    ///
+    /// * An [`Expr`] with hashed values.
+    fn hash(self) -> Expr;
 
     /// Normalizes the values in an [`Expr`].
     ///
@@ -35,6 +42,14 @@ impl ExprExt for Expr {
             self = self.struct_().field_by_name(name.as_ref());
         }
         self
+    }
+
+    fn hash(self) -> Expr {
+        self.apply(
+            column(|series| Ok(hash(series))),
+            GetOutput::from_type(DataType::UInt64),
+        )
+        .alias("Hash")
     }
 
     fn normalize(self) -> Expr {
