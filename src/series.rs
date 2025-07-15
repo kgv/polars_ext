@@ -1,4 +1,3 @@
-use ahash::RandomState;
 use polars::prelude::*;
 
 /// Creates a function that applies a transformation to a [`Column`].
@@ -21,23 +20,6 @@ pub fn column(
         };
         Ok(Some(function(series)?.into_column()))
     }
-}
-
-/// Hashes the values in a [`Series`].
-///
-/// # Arguments
-///
-/// * `series` - A [`Series`] whose values are to be hashed.
-///
-/// # Returns
-///
-/// * A [`Series`] of hashed values.
-pub fn hash(series: &Series) -> PolarsResult<Series> {
-    Ok(series
-        .iter()
-        .map(|value| Ok(Some(RandomState::with_seeds(1, 2, 3, 4).hash_one(value))))
-        .collect::<PolarsResult<UInt64Chunked>>()?
-        .into_series())
 }
 
 /// Normalizes the values in a [`Series`].
