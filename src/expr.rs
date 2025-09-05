@@ -86,6 +86,8 @@ pub trait ExprIfExt: ExprExt {
     /// * A normalized [`Expr`] if `normalize` is true, otherwise the original
     ///   [`Expr`].
     fn normalize_if(self, normalize: bool) -> Expr;
+
+    fn percent_if(self, percent: bool) -> Expr;
 }
 
 impl ExprIfExt for Expr {
@@ -95,5 +97,9 @@ impl ExprIfExt for Expr {
 
     fn normalize_if(self, normalize: bool) -> Expr {
         if normalize { self.normalize() } else { self }
+    }
+
+    fn percent_if(self, percent: bool) -> Expr {
+        if percent { self * lit(100) } else { self }
     }
 }
