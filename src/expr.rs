@@ -34,6 +34,9 @@ pub trait ExprExt {
     ///
     /// * An [`Expr`] with nullified values.
     fn nullify(self, mask: Expr) -> Expr;
+
+    #[cfg(feature = "precision")]
+    fn precision(self, precision: usize) -> Expr;
 }
 
 impl ExprExt for Expr {
@@ -58,6 +61,12 @@ impl ExprExt for Expr {
 
     fn nullify(self, mask: Expr) -> Expr {
         ternary_expr(mask, self, lit(NULL))
+    }
+
+    #[cfg(feature = "precision")]
+    fn precision(self, precision: usize) -> Expr {
+        self.cast(DataType::Decimal(None, Some(precision)))
+            .cast(DataType::Float64)
     }
 }
 
