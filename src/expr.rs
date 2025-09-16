@@ -48,15 +48,14 @@ impl ExprExt for Expr {
     }
 
     fn hash(self) -> Expr {
-        self.apply(
-            column(|series| Ok(hash(series))),
-            GetOutput::from_type(DataType::UInt64),
-        )
+        self.apply(column(|series| Ok(hash(series))), |_, field| {
+            Ok(Field::new(field.name.clone(), DataType::UInt64))
+        })
         .alias("Hash")
     }
 
     fn normalize(self) -> Expr {
-        self.apply(column(normalize), GetOutput::same_type())
+        self.apply(column(normalize), |_, field| Ok(field.clone()))
     }
 
     fn nullify(self, mask: Expr) -> Expr {

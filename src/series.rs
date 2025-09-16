@@ -14,13 +14,8 @@ use polars::prelude::*;
 ///   [`Column`].
 pub fn column(
     function: impl Fn(&Series) -> PolarsResult<Series>,
-) -> impl Fn(Column) -> PolarsResult<Option<Column>> {
-    move |column| {
-        let Some(series) = column.as_series() else {
-            return Ok(None);
-        };
-        Ok(Some(function(series)?.into_column()))
-    }
+) -> impl Fn(Column) -> PolarsResult<Column> {
+    move |column| Ok(function(column.as_materialized_series())?.into_column())
 }
 
 /// Hashes the values in a [`Series`].
