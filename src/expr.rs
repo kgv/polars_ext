@@ -35,8 +35,8 @@ pub trait ExprExt {
     /// * An [`Expr`] with nullified values.
     fn nullify(self, mask: Expr) -> Expr;
 
-    #[cfg(feature = "precision")]
-    fn precision(self, precision: usize) -> Expr;
+    // #[cfg(feature = "precision")]
+    fn precision(self, precision: usize, significant: bool) -> Expr;
 }
 
 impl ExprExt for Expr {
@@ -62,10 +62,13 @@ impl ExprExt for Expr {
         ternary_expr(mask, self, lit(NULL))
     }
 
-    #[cfg(feature = "precision")]
-    fn precision(self, precision: usize) -> Expr {
-        self.cast(DataType::Decimal(None, Some(precision)))
-            .cast(DataType::Float64)
+    // #[cfg(feature = "precision")]
+    fn precision(self, precision: usize, significant: bool) -> Expr {
+        if significant {
+            self.round_sig_figs(precision as _)
+        } else {
+            self.round(precision as _, RoundMode::HalfToEven)
+        }
     }
 }
 
