@@ -64,11 +64,17 @@ impl ExprExt for Expr {
 
     // #[cfg(feature = "precision")]
     fn precision(self, precision: usize, significant: bool) -> Expr {
-        if significant {
-            self.round_sig_figs(precision as _)
-        } else {
-            self.round(precision as _, RoundMode::HalfToEven)
-        }
+        // Если число меньше 1, то возможно significant.
+        ternary_expr(
+            self.clone().lt(1).and(significant),
+            self.clone().round_sig_figs(precision as _),
+            self.round(precision as _, RoundMode::HalfToEven),
+        )
+        // if significant {
+        //     ternary_expr(self.clone().lt(1).and(significant), self.round_sig_figs(precision as _), falsy)
+        // } else {
+        //     self.round(precision as _, RoundMode::HalfToEven)
+        // }
     }
 }
 
