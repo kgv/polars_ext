@@ -35,6 +35,8 @@ pub trait ExprExt {
     /// * An [`Expr`] with nullified values.
     fn nullify(self, mask: Expr) -> Expr;
 
+    fn percent(self) -> Expr;
+
     // #[cfg(feature = "precision")]
     fn precision(self, precision: usize, significant: bool) -> Expr;
 }
@@ -60,6 +62,10 @@ impl ExprExt for Expr {
 
     fn nullify(self, mask: Expr) -> Expr {
         ternary_expr(mask, self, lit(NULL))
+    }
+
+    fn percent(self) -> Expr {
+        self * lit(100)
     }
 
     // #[cfg(feature = "precision")]
