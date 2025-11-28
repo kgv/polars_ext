@@ -72,7 +72,7 @@ impl ExprExt for Expr {
     fn precision(self, precision: usize, significant: bool) -> Expr {
         // Если число меньше 1, то возможно significant.
         ternary_expr(
-            self.clone().lt(1).and(significant),
+            self.clone().abs().lt(1).and(significant),
             self.clone().round_sig_figs(precision as _),
             self.round(precision as _, RoundMode::HalfToEven),
         )

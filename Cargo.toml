@@ -7,6 +7,7 @@ edition = "2024"
 [dependencies]
 ahash = "0.8.12"
 polars = { git = "https://github.com/pola-rs/polars", rev = "fea5335", default-features = false, features = [
+    "abs",
     "dtype-struct",
     "fmt_no_tty",
     "lazy",
