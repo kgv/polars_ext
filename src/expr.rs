@@ -26,7 +26,7 @@ pub trait ExprExt {
     /// # Returns
     ///
     /// * An [`Expr`] with normalized values.
-    fn normalize(self) -> Expr;
+    fn normalize(self, normalize: bool) -> Expr;
 
     /// Nullify the values in an [`Expr`].
     ///
@@ -35,7 +35,7 @@ pub trait ExprExt {
     /// * An [`Expr`] with nullified values.
     fn nullify(self, mask: Expr) -> Expr;
 
-    fn percent(self) -> Expr;
+    fn percent(self, percent: bool) -> Expr;
 
     // #[cfg(feature = "precision")]
     fn precision(self, precision: usize, significant: bool) -> Expr;
@@ -56,16 +56,20 @@ impl ExprExt for Expr {
         .alias("Hash")
     }
 
-    fn normalize(self) -> Expr {
-        self.apply(column(normalize), |_, field| Ok(field.clone()))
+    fn normalize(self, normalize: bool) -> Expr {
+        if normalize {
+            self.clone() / self.sum()
+        } else {
+            self
+        }
     }
 
     fn nullify(self, mask: Expr) -> Expr {
         ternary_expr(mask, self, lit(NULL))
     }
 
-    fn percent(self) -> Expr {
-        self * lit(100)
+    fn percent(self, percent: bool) -> Expr {
+        if percent { self * lit(100) } else { self }
     }
 
     // #[cfg(feature = "precision")]
@@ -97,20 +101,20 @@ pub trait ExprIfExt: ExprExt {
     /// * A clipped [`Expr`] if `clip` is true, otherwise the original [`Expr`].
     fn clip_min_if(self, clip: bool) -> Expr;
 
-    /// Conditionally normalizes the [`Expr`] values.
-    ///
-    /// # Arguments
-    ///
-    /// * `normalize` - A boolean indicating whether to normalize the [`Expr`]
-    ///   values.
-    ///
-    /// # Returns
-    ///
-    /// * A normalized [`Expr`] if `normalize` is true, otherwise the original
-    ///   [`Expr`].
-    fn normalize_if(self, normalize: bool) -> Expr;
+    // /// Conditionally normalizes the [`Expr`] values.
+    // ///
+    // /// # Arguments
+    // ///
+    // /// * `normalize` - A boolean indicating whether to normalize the [`Expr`]
+    // ///   values.
+    // ///
+    // /// # Returns
+    // ///
+    // /// * A normalized [`Expr`] if `normalize` is true, otherwise the original
+    // ///   [`Expr`].
+    // fn normalize_if(self, normalize: bool) -> Expr;
 
-    fn percent_if(self, percent: bool) -> Expr;
+    // fn percent_if(self, percent: bool) -> Expr;
 }
 
 impl ExprIfExt for Expr {
@@ -118,11 +122,11 @@ impl ExprIfExt for Expr {
         if clip { self.clip_min(lit(0)) } else { self }
     }
 
-    fn normalize_if(self, normalize: bool) -> Expr {
-        if normalize { self.normalize() } else { self }
-    }
+    // fn normalize_if(self, normalize: bool) -> Expr {
+    //     if normalize { self.normalize() } else { self }
+    // }
 
-    fn percent_if(self, percent: bool) -> Expr {
-        if percent { self * lit(100) } else { self }
-    }
+    // fn percent_if(self, percent: bool) -> Expr {
+    //     if percent { self * lit(100) } else { self }
+    // }
 }
