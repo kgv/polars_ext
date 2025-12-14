@@ -1,4 +1,6 @@
 pub mod prelude {
+    #[cfg(feature = "array")]
+    pub use crate::expr::eval_arr;
     pub use crate::{
         data_frame::DataFrameExt,
         expr::{ExprExt, ExprIfExt},

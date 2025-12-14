@@ -1,5 +1,14 @@
-use crate::series::{column, hash, normalize};
+use crate::series::{column, hash};
 use polars::prelude::*;
+
+#[cfg(feature = "array")]
+pub fn eval_arr(expr: Expr, f: impl Fn(Expr) -> Expr) -> PolarsResult<Expr> {
+    concat_arr(vec![f(expr
+        .arr()
+        .to_struct(None)
+        .struct_()
+        .field_by_name("*"))])
+}
 
 /// Extension methods for [`Expr`]
 pub trait ExprExt {

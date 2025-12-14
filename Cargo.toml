@@ -19,5 +19,6 @@ polars-arrow = { git = "https://github.com/pola-rs/polars", rev = "fea5335", opt
 [features]
 default = []
 
+array = ["polars/array_to_struct", "polars/dtype-struct"]
 precision = ["polars/dtype-decimal"]
 temporal_conversions = ["dep:polars-arrow"]
