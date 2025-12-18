@@ -6,7 +6,7 @@ edition = "2024"
 
 [dependencies]
 ahash = "0.8.12"
-polars = { git = "https://github.com/pola-rs/polars", rev = "fea5335", default-features = false, features = [
+polars = { git = "https://github.com/pola-rs/polars", rev = "05f6f2d", default-features = false, features = [
     "abs",
     "dtype-struct",
     "fmt_no_tty",
@@ -14,7 +14,7 @@ polars = { git = "https://github.com/pola-rs/polars", rev = "fea5335", default-f
     "round_series",
     # "row_hash",
 ] }
-polars-arrow = { git = "https://github.com/pola-rs/polars", rev = "fea5335", optional = true }
+polars-arrow = { git = "https://github.com/pola-rs/polars", rev = "05f6f2d", optional = true }
 
 [features]
 default = []
