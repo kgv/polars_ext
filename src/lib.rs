@@ -1,10 +1,7 @@
 pub mod prelude {
     #[cfg(feature = "array")]
     pub use crate::expr::eval_arr;
-    pub use crate::{
-        data_frame::DataFrameExt,
-        expr::{ExprExt, ExprIfExt},
-    };
+    pub use crate::{data_frame::DataFrameExt, expr::ExprExt};
     #[cfg(feature = "temporal_conversions")]
     pub use polars_arrow::temporal_conversions::{
         timestamp_ms_to_datetime, timestamp_ns_to_datetime, timestamp_us_to_datetime,

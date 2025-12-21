@@ -12,6 +12,17 @@ pub fn eval_arr(expr: Expr, f: impl Fn(Expr) -> Expr) -> PolarsResult<Expr> {
 
 /// Extension methods for [`Expr`]
 pub trait ExprExt {
+    /// Conditionally clips the minimum value of an [`Expr`].
+    ///
+    /// # Arguments
+    ///
+    /// * `clip` - A boolean indicating whether to clip the minimum value.
+    ///
+    /// # Returns
+    ///
+    /// * A clipped [`Expr`] if `clip` is true, otherwise the original [`Expr`].
+    fn clip_unsigned(self, clip: bool) -> Expr;
+
     /// Destructs an [`Expr`] into multiple fields.
     ///
     /// # Arguments
@@ -51,6 +62,10 @@ pub trait ExprExt {
 }
 
 impl ExprExt for Expr {
+    fn clip_unsigned(self, clip: bool) -> Expr {
+        if clip { self.clip_min(lit(0)) } else { self }
+    }
+
     fn destruct(mut self, names: impl IntoIterator<Item = impl AsRef<str>>) -> Expr {
         for name in names {
             self = self.struct_().field_by_name(name.as_ref());
@@ -89,53 +104,5 @@ impl ExprExt for Expr {
             self.clone().round_sig_figs(precision as _),
             self.round(precision as _, RoundMode::HalfToEven),
         )
-        // if significant {
-        //     ternary_expr(self.clone().lt(1).and(significant), self.round_sig_figs(precision as _), falsy)
-        // } else {
-        //     self.round(precision as _, RoundMode::HalfToEven)
-        // }
     }
-}
-
-/// Extension `if` methods for [`Expr`]
-pub trait ExprIfExt: ExprExt {
-    /// Conditionally clips the minimum value of an [`Expr`].
-    ///
-    /// # Arguments
-    ///
-    /// * `clip` - A boolean indicating whether to clip the minimum value.
-    ///
-    /// # Returns
-    ///
-    /// * A clipped [`Expr`] if `clip` is true, otherwise the original [`Expr`].
-    fn clip_min_if(self, clip: bool) -> Expr;
-
-    // /// Conditionally normalizes the [`Expr`] values.
-    // ///
-    // /// # Arguments
-    // ///
-    // /// * `normalize` - A boolean indicating whether to normalize the [`Expr`]
-    // ///   values.
-    // ///
-    // /// # Returns
-    // ///
-    // /// * A normalized [`Expr`] if `normalize` is true, otherwise the original
-    // ///   [`Expr`].
-    // fn normalize_if(self, normalize: bool) -> Expr;
-
-    // fn percent_if(self, percent: bool) -> Expr;
-}
-
-impl ExprIfExt for Expr {
-    fn clip_min_if(self, clip: bool) -> Expr {
-        if clip { self.clip_min(lit(0)) } else { self }
-    }
-
-    // fn normalize_if(self, normalize: bool) -> Expr {
-    //     if normalize { self.normalize() } else { self }
-    // }
-
-    // fn percent_if(self, percent: bool) -> Expr {
-    //     if percent { self * lit(100) } else { self }
-    // }
 }
