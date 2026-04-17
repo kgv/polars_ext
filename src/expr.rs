@@ -3,11 +3,13 @@ use polars::prelude::*;
 
 #[cfg(feature = "array")]
 pub fn eval_arr(element: Expr, f: impl Fn(Expr) -> Expr) -> PolarsResult<Expr> {
-    concat_arr(vec![f(element
+    Ok(concat_arr(vec![f(element
         .arr()
         .to_struct(None)
         .struct_()
-        .field_by_name("*"))])
+        .field_by_name("*"))])?
+    .name()
+    .keep())
 }
 
 /// Extension methods for [`Expr`]
