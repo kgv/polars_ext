@@ -1,6 +1,6 @@
 [package]
 name = "polars_ext"
-version = "0.6.1"
+version = "0.6.2"
 authors = ["Giorgi Vladimirovich Kazakov", "Roman Alexandrovich Sidorov"]
 edition = "2024"
 
