@@ -1,12 +1,12 @@
 [package]
 name = "polars_ext"
-version = "0.6.0"
+version = "0.6.1"
 authors = ["Giorgi Vladimirovich Kazakov", "Roman Alexandrovich Sidorov"]
 edition = "2024"
 
 [dependencies]
 ahash = "0.8.12"
-polars = { git = "https://github.com/pola-rs/polars", rev = "099564e", default-features = false, features = [
+polars = { git = "https://github.com/pola-rs/polars", rev = "bf6a425", default-features = false, features = [
     "abs",
     "dtype-struct",
     "fmt_no_tty",
@@ -14,7 +14,7 @@ polars = { git = "https://github.com/pola-rs/polars", rev = "099564e", default-f
     "round_series",
     # "row_hash",
 ] }
-polars-arrow = { git = "https://github.com/pola-rs/polars", rev = "099564e", optional = true }
+polars-arrow = { git = "https://github.com/pola-rs/polars", rev = "bf6a425", optional = true }
 
 [features]
 default = []
