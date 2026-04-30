@@ -15,6 +15,12 @@ impl<T: Display> DisplayOption for Option<T> {
     }
 }
 
+impl<T: Display> DisplayOption for &Option<T> {
+    fn display(self) -> impl Display {
+        self.as_ref().display()
+    }
+}
+
 // pub fn option<T: Display>(option: Option<T>) -> impl Display {
 //     from_fn(move |f| match &option {
 //         None => f.write_str(EM_DASH),
