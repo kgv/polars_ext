@@ -9,7 +9,6 @@ pub mod prelude {
 }
 
 pub mod column;
-pub mod r#const;
 pub mod data_frame;
 pub mod display;
 pub mod expr;

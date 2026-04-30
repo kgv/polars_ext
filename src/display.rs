@@ -1,5 +1,6 @@
-use crate::r#const::EM_DASH;
 use std::fmt::{Display, from_fn};
+
+const EM_DASH: &str = "—";
 
 /// Display option
 pub trait DisplayOption {
@@ -20,10 +21,3 @@ impl<T: Display> DisplayOption for &Option<T> {
         self.as_ref().display()
     }
 }
-
-// pub fn option<T: Display>(option: Option<T>) -> impl Display {
-//     from_fn(move |f| match &option {
-//         None => f.write_str(EM_DASH),
-//         Some(t) => Display::fmt(t, f),
-//     })
-// }
