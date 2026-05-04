@@ -15,10 +15,23 @@ polars = { git = "https://github.com/pola-rs/polars", rev = "bf6a425", default-f
     # "row_hash",
 ] }
 polars-arrow = { git = "https://github.com/pola-rs/polars", rev = "bf6a425", optional = true }
+typed-builder = "0.23.2"
+
+const_format = { version = "0.2.36", optional = true }
 
 [features]
-default = []
+default = ["array"]
 
-array = ["polars/array_to_struct", "polars/dtype-struct"]
+array = [
+    "const_format",
+    "polars/array_arithmetic",
+    "polars/array_to_struct",
+    "polars/dtype-array",
+    "polars/dtype-struct",
+    #
+    "polars/dtype-datetime",
+    "polars/meta",
+    "polars/strings",
+]
 precision = ["polars/dtype-decimal"]
 temporal_conversions = ["dep:polars-arrow"]

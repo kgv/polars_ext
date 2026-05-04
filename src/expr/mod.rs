@@ -1,17 +1,6 @@
 use crate::series::{column, hash};
 use polars::prelude::*;
 
-#[cfg(feature = "array")]
-pub fn eval_arr(element: Expr, f: impl Fn(Expr) -> PolarsResult<Expr>) -> PolarsResult<Expr> {
-    Ok(concat_arr(vec![f(element
-        .arr()
-        .to_struct(None)
-        .struct_()
-        .field_by_name("*"))?])?
-    .name()
-    .keep())
-}
-
 /// Extension methods for [`Expr`]
 pub trait ExprExt {
     /// Conditionally clips the minimum value of an [`Expr`].
@@ -108,3 +97,6 @@ impl ExprExt for Expr {
         )
     }
 }
+
+#[cfg(feature = "array")]
+pub mod array;

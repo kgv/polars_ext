@@ -1,6 +1,7 @@
+use polars::datatypes::AnyValue;
 use std::fmt::{Display, from_fn};
 
-const EM_DASH: &str = "—";
+pub const EM_DASH: &str = "—";
 
 /// Display option
 pub trait DisplayOption {
@@ -10,6 +11,7 @@ pub trait DisplayOption {
 impl<T: Display> DisplayOption for Option<T> {
     fn display(self) -> impl Display {
         from_fn(move |f| match &self {
+            None if f.alternate() => Display::fmt(&AnyValue::Null, f),
             None => f.write_str(EM_DASH),
             Some(t) => Display::fmt(t, f),
         })
