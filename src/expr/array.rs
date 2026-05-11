@@ -47,7 +47,8 @@ impl From<Array> for Expr {
                 .mean()
                 .percent(value.percent)
                 .precision(value.precision, value.significant)
-                .alias(MEAN),
+                .name()
+                .suffix(MEAN),
             value
                 .expr
                 .clone()
@@ -55,7 +56,8 @@ impl From<Array> for Expr {
                 .std(value.ddof)
                 .percent(value.percent)
                 .precision(value.precision, value.significant)
-                .alias(STANDARD_DEVIATION),
+                .name()
+                .suffix(STANDARD_DEVIATION),
         ])
         .struct_()
         .rename_fields(vec![ARRAY, MEAN, STANDARD_DEVIATION])
