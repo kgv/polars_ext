@@ -28,8 +28,6 @@ pub struct Array {
     significant: bool,
 
     #[builder(default)]
-    unnest: bool,
-    #[builder(default)]
     percent: bool,
 }
 
@@ -49,8 +47,7 @@ impl From<Array> for Expr {
                 .mean()
                 .percent(value.percent)
                 .precision(value.precision, value.significant)
-                .name()
-                .suffix(formatcp!(".{MEAN}")),
+                .alias(MEAN),
             value
                 .expr
                 .clone()
@@ -58,8 +55,7 @@ impl From<Array> for Expr {
                 .std(value.ddof)
                 .percent(value.percent)
                 .precision(value.precision, value.significant)
-                .name()
-                .suffix(formatcp!(".{STANDARD_DEVIATION}")),
+                .alias(STANDARD_DEVIATION),
         ])
         .struct_()
         .rename_fields(vec![ARRAY, MEAN, STANDARD_DEVIATION])
