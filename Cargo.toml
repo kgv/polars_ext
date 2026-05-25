@@ -15,6 +15,7 @@ polars = { git = "https://github.com/pola-rs/polars", rev = "bf6a425", default-f
     # "row_hash",
 ] }
 polars-arrow = { git = "https://github.com/pola-rs/polars", rev = "bf6a425", optional = true }
+polars-utils = { version = "0.53.0", features = ["nightly"] }
 typed-builder = "0.23.2"
 
 const_format = { version = "0.2.36", optional = true }

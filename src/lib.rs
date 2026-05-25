@@ -20,5 +20,6 @@ pub mod prelude {
 pub mod column;
 pub mod data_frame;
 pub mod expr;
+pub mod list;
 pub mod option;
 pub mod series;
