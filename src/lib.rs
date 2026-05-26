@@ -10,14 +10,12 @@ pub mod prelude {
     };
 
     pub mod r#const {
-        pub use crate::option::EM_DASH;
-
-        #[cfg(feature = "array")]
-        pub use crate::expr::array::{ARRAY, MEAN, STANDARD_DEVIATION};
+        pub use crate::r#const::{ARRAY, EM_DASH, MEAN, STANDARD_DEVIATION};
     }
 }
 
 pub mod column;
+pub mod r#const;
 pub mod data_frame;
 pub mod expr;
 pub mod list;

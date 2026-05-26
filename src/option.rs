@@ -1,7 +1,7 @@
 use polars::datatypes::AnyValue;
 use std::fmt::{Display, from_fn};
 
-pub const EM_DASH: &str = "—";
+use crate::r#const::EM_DASH;
 
 /// Display option
 pub trait DisplayOption {
