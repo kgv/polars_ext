@@ -34,7 +34,7 @@ impl DataFrameExt for DataFrame {
             .iter()
             .map(|(name, _dtype)| Series::new_null(name.clone(), 1).into_column())
             .collect();
-        let df = unsafe { DataFrame::new_unchecked(1, columns) };
+        let df = unsafe { DataFrame::new_no_checks(1, columns) };
         *self = self.vstack(&df)?;
         self.align_chunks_par();
         Ok(())

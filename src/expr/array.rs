@@ -2,7 +2,6 @@ use crate::{
     r#const::{ARRAY, MEAN, RELATIVE_STANDARD_DEVIATION, STANDARD_DEVIATION},
     expr::ExprExt,
 };
-use const_format::formatcp;
 use polars::prelude::*;
 use typed_builder::TypedBuilder;
 

@@ -1,5 +1,5 @@
-use std::fmt::Display;
 use polars_utils::format_list_truncated;
+use std::fmt::Display;
 
 pub fn format_list_truncated<const N: usize>(
     iter: impl Iterator<Item = impl Display>,

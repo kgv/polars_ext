@@ -18,13 +18,10 @@ polars-arrow = { version = "0.52.0", optional = true }
 polars-utils = "0.52.0"
 typed-builder = "0.23.2"
 
-const_format = { version = "0.2.36", optional = true }
-
 [features]
 default = ["array"]
 
 array = [
-    "const_format",
     "polars/array_arithmetic",
     "polars/array_to_struct",
     "polars/dtype-array",

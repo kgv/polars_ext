@@ -1,7 +1,6 @@
+use crate::r#const::EM_DASH;
 use polars::datatypes::AnyValue;
 use std::fmt::{Display, from_fn};
-
-use crate::r#const::EM_DASH;
 
 /// Display option
 pub trait DisplayOption {
