@@ -28,6 +28,8 @@ pub struct Array {
     #[builder(default)]
     flatten: bool,
     #[builder(default)]
+    keep_name: bool,
+    #[builder(default)]
     percent: bool,
 }
 
@@ -67,9 +69,10 @@ impl From<Array> for Expr {
                 .percent(true)
                 .precision(value.precision, value.significant)
                 .alias(RELATIVE_STANDARD_DEVIATION),
-        ])
-        .name()
-        .keep();
+        ]);
+        if value.keep_name {
+            expr = expr.name().keep();
+        }
         if value.flatten {
             expr = expr.struct_().field_by_name("*");
         }
