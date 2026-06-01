@@ -17,7 +17,7 @@ pub fn eval_arr(element: Expr, f: impl Fn(Expr) -> PolarsResult<Expr>) -> Polars
 
 /// Struct with mean, standard deviation and array fields
 #[derive(TypedBuilder)]
-#[builder(build_method(into=PolarsResult<Expr>))]
+#[builder(build_method(into=Expr))]
 pub struct Array {
     expr: Expr,
 
@@ -31,7 +31,7 @@ pub struct Array {
     percent: bool,
 }
 
-impl From<Array> for PolarsResult<Expr> {
+impl From<Array> for Expr {
     fn from(value: Array) -> Self {
         let mut array = value.expr.clone().arr().eval(
             element()
@@ -68,11 +68,11 @@ impl From<Array> for PolarsResult<Expr> {
                 .precision(value.precision, value.significant)
                 .alias(RELATIVE_STANDARD_DEVIATION),
         ])
-        .alias(value.expr.meta().output_name()?);
+        .alias(value.expr.meta().output_name().unwrap_or_default());
         if value.flatten {
             expr = expr.struct_().field_by_name("*");
         }
-        Ok(expr)
+        expr
     }
 }
 
