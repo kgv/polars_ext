@@ -1,5 +1,7 @@
 pub mod prelude {
-    pub use crate::{data_frame::DataFrameExt, expr::ExprExt, option::DisplayOption};
+    pub use crate::{
+        data_frame::DataFrameExt, expr::ExprExt, option::DisplayOption, schema::matches_schema,
+    };
 
     #[cfg(feature = "array")]
     pub use crate::expr::array::{Array, eval_arr};
@@ -20,4 +22,5 @@ pub mod data_frame;
 pub mod expr;
 pub mod list;
 pub mod option;
+pub mod schema;
 pub mod series;
