@@ -15,6 +15,15 @@ pub fn eval_arr(element: Expr, f: impl Fn(Expr) -> PolarsResult<Expr>) -> Polars
     .keep())
 }
 
+pub fn fill_arr_nulls(expr: Expr) -> Expr {
+    expr.clone()
+        .fill_null(expr.drop_nulls().first() * lit(NULL))
+}
+
+pub fn fill_arr_zeros(expr: Expr) -> Expr {
+    expr.clone().fill_null(expr.drop_nulls().first() * lit(0))
+}
+
 /// Struct with mean, standard deviation and array fields
 #[derive(TypedBuilder)]
 #[builder(build_method(into=Expr))]
