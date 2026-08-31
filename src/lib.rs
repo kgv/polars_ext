@@ -4,7 +4,7 @@ pub mod prelude {
     };
 
     #[cfg(feature = "array")]
-    pub use crate::expr::array::{Array, eval_arr, fill_arr};
+    pub use crate::expr::array::{Array, FillArray, eval_arr};
 
     #[cfg(feature = "temporal_conversions")]
     pub use polars_arrow::temporal_conversions::{

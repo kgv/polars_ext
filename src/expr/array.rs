@@ -24,6 +24,26 @@ pub fn fill_arr_zeros(expr: Expr) -> Expr {
     expr.clone().fill_null(expr.drop_nulls().first() * lit(0))
 }
 
+pub trait FillArray {
+    fn fill_null_with_null_array(self) -> Expr;
+
+    fn fill_null_with_zero_array(self) -> Expr;
+}
+
+impl FillArray for ArrayNameSpace {
+    fn fill_null_with_null_array(self) -> Expr {
+        self.0
+            .clone()
+            .fill_null(self.0.drop_nulls().first() * lit(NULL))
+    }
+
+    fn fill_null_with_zero_array(self) -> Expr {
+        self.0
+            .clone()
+            .fill_null(self.0.drop_nulls().first() * lit(0))
+    }
+}
+
 /// Struct with mean, standard deviation and array fields
 #[derive(TypedBuilder)]
 #[builder(build_method(into=Expr))]
