@@ -20,6 +20,8 @@ pub trait DataFrameExt {
     /// * A result indicating success or failure.
     fn delete_row(&mut self, row: usize) -> PolarsResult<()>;
 
+    fn swap_rows(&mut self, source_row: usize, target_row: usize) -> PolarsResult<()>;
+
     /// Returns a subslice with the first rows up to the row.
     fn firts_rows_to(&mut self, row: usize);
 
@@ -45,6 +47,17 @@ impl DataFrameExt for DataFrame {
             .slice(0, row)
             .vstack(&self.slice((row + 1) as _, usize::MAX))?;
         self.align_chunks_par();
+        Ok(())
+    }
+
+    fn swap_rows(&mut self, source_row: usize, mut target_row: usize) -> PolarsResult<()> {
+        target_row -= (source_row < target_row) as usize;
+
+        let mut indices: Vec<u32> = (0..self.height() as u32).collect();
+        let item = indices.remove(source_row);
+        indices.insert(target_row, item);
+
+        *self = self.take(&IdxCa::new("Index".into(), indices))?;
         Ok(())
     }
 
