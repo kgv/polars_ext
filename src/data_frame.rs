@@ -30,6 +30,17 @@ pub trait DataFrameExt {
 }
 
 impl DataFrameExt for DataFrame {
+    // fn add_row(&mut self) -> PolarsResult<()> {
+    //     let schema = self.schema();
+    //     let columns = schema
+    //         .iter()
+    //         .map(|(name, _dtype)| Series::new_null(name.clone(), 1).into_column())
+    //         .collect();
+    //     let df = unsafe { DataFrame::new_no_checks(1, columns) };
+    //     *self = self.vstack(&df)?;
+    //     self.align_chunks_par();
+    //     Ok(())
+    // }
     fn add_row(&mut self) -> PolarsResult<()> {
         let schema = self.schema();
         let columns = schema
@@ -42,11 +53,25 @@ impl DataFrameExt for DataFrame {
         Ok(())
     }
 
+    // fn delete_row(&mut self, row: usize) -> PolarsResult<()> {
+    //     *self = self
+    //         .slice(0, row)
+    //         .vstack(&self.slice((row + 1) as _, usize::MAX))?;
+    //     self.align_chunks_par();
+    //     Ok(())
+    // }
     fn delete_row(&mut self, row: usize) -> PolarsResult<()> {
         *self = self
-            .slice(0, row)
-            .vstack(&self.slice((row + 1) as _, usize::MAX))?;
-        self.align_chunks_par();
+            .clone()
+            .lazy()
+            .with_row_index("__RowIndex", None)
+            .filter(col("__RowIndex").neq(lit(row as u32)))
+            .drop(cols(["__RowIndex"]))
+            .collect()?;
+        // *self = self
+        //     .slice(0, row)
+        //     .vstack(&self.slice((row + 1) as _, usize::MAX))?;
+        // self.align_chunks_par();
         Ok(())
     }
 
