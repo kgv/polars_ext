@@ -49,7 +49,7 @@ impl DataFrameExt for DataFrame {
             .collect();
         let df = unsafe { DataFrame::new_no_checks(1, columns) };
         *self = self.vstack(&df)?;
-        self.align_chunks_par();
+        self.as_single_chunk_par();
         Ok(())
     }
 
@@ -57,21 +57,17 @@ impl DataFrameExt for DataFrame {
     //     *self = self
     //         .slice(0, row)
     //         .vstack(&self.slice((row + 1) as _, usize::MAX))?;
-    //     self.align_chunks_par();
+    //     self.as_single_chunk_par();
     //     Ok(())
     // }
     fn delete_row(&mut self, row: usize) -> PolarsResult<()> {
         *self = self
             .clone()
             .lazy()
-            .with_row_index("__RowIndex", None)
-            .filter(col("__RowIndex").neq(lit(row as u32)))
-            .drop(cols(["__RowIndex"]))
+            .with_row_index("_Index", None)
+            .filter(col("_Index").neq(lit(row as u32)))
+            .drop(cols(["_Index"]))
             .collect()?;
-        // *self = self
-        //     .slice(0, row)
-        //     .vstack(&self.slice((row + 1) as _, usize::MAX))?;
-        // self.align_chunks_par();
         Ok(())
     }
 
